@@ -1,5 +1,11 @@
 // Setup basic express server
-import {getAppointment, getDoctorAppointments, getDoctorDetails, getPatientDetails} from "./services/api.service";
+import {
+    getAppointment,
+    getDoctorAppointments,
+    getDoctorDetails,
+    getMessages,
+    getPatientDetails
+} from "./services/api.service";
 
 const axios = require('axios');
 const express = require('express');
@@ -45,7 +51,12 @@ app.get('/api/appointments/doctor', async (req, res) => {
 });
 
 app.get('/api/doctors', async (req, res) => {
-    const data = await getDoctorDetails(req.query.id, req.query.facilityId, req.role);
+        const data = await getDoctorDetails(req.query.id, req.query.facilityId, req.role);
+        res.send(data || {});
+    });
+
+app.get('/api/messages', async (req, res) => {
+    const data = await getMessages(req.query.appointmentId);
     res.send(data || {});
 });
 
@@ -54,9 +65,9 @@ io.sockets.on('connection', function(socket) {
     const appointmentId = socket.handshake.query['appointmentId'];
     const doctorId = socket.handshake.query['doctorId'];
     let nsDoctor = doctorId;
-    if (typeof appointmentId === 'undefined') {
-        const appoinement = getAppointment(appointmentId);
-        nsDoctor = appoinement.doctorId;
+    if (typeof appointmentId !== 'undefined') {
+        const appointment = getAppointment(appointmentId);
+        nsDoctor = appointment.doctorId;
     }
 
     io.of(nsDoctor).on('connection', function(socket) {
@@ -69,6 +80,8 @@ io.sockets.on('connection', function(socket) {
             socket.join(appointmentId);
             socket.in(appointmentId).emit('patient_connected', 'מבוטח מחובר');
         });
+
+        socket.on('doctor_connect', function () {});
 
         socket.on('chat_message', function (appointmentId, msg) {
             if (msg.hasOwnProperty('destination')) {

@@ -85,6 +85,7 @@ export {
     getPatientAppointment,
     getDoctorDetails,
     getPatientDetails,
-    getAppointment
+    getAppointment,
+    getMessages
 }
 

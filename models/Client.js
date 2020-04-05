@@ -2,4 +2,4 @@ class Client {
 
 }
 
-export default Client;
+module.exports = Client;

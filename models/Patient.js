@@ -6,3 +6,5 @@ class Patient {
         this.endpoint = '';
     }
 }
+
+module.exports = Patient;

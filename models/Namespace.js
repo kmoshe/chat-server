@@ -9,8 +9,12 @@ class Namespace {
     }
 
     addRoom(room){
-        this.rooms.push(room);
+        this.rooms[this.id] = (room);
+    }
+
+    getRoom(id) {
+        return this.rooms[id]
     }
 }
 
-export default Namespace;
+module.exports = Namespace;

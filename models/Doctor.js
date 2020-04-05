@@ -7,6 +7,7 @@ class Doctor {
         this.lastName = lastName;
         this.endpoint = '';
         this.messages = [];
+        this.currentRoom = {};
     }
 
     addMessage(message) {
@@ -14,4 +15,4 @@ class Doctor {
     }
 }
 
-export default Doctor;
+module.exports = Doctor;

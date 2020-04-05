@@ -1,6 +1,4 @@
-import axios from "axios";
-import {isPatient} from "./utils.service";
-
+const axios = require('axios');
 
 const getMessages = async (appointmentId) => {
     const response = await axios.get(`http://localhost:4000/messages?appointmentId=${appointmentId}`) ;
@@ -26,10 +24,10 @@ const getDoctorAppointments = async (id, facilityId, role) => {
     return data;
 }
 
-const getAppointment = async ()  => {
+const getAppointment = async (id)  => {
     let data = {};
     try {
-        const response = await axios.get(`http://localhost:4000/appointments?id=${req.query.id}`);
+        const response = await axios.get(`http://localhost:4000/appointments?id=${id}`);
         data = response.data;
     }
     catch (error) {
@@ -51,10 +49,22 @@ const getPatientAppointment = async (id) => {
 }
 
 
-const getDoctorDetails = async (id, facility, role) => {
+const getDoctorDetails = async (id, facilityId, role) => {
     let data = {};
     try {
         const response = await axios.get(`http://localhost:4000/doctors?id=${id}&facilityId=${facilityId}&role=${role}`);
+        data = response.data;
+    }
+    catch (error) {
+        data = error;
+    }
+    return data;
+}
+
+const getDoctorDetailsById = async (id) => {
+    let data = {};
+    try {
+        const response = await axios.get(`http://localhost:4000/doctors?id=${id}`);
         data = response.data;
     }
     catch (error) {
@@ -79,13 +89,13 @@ const connectToDoctor = async (appointmentId) => {
     const response = await axios.get(`http://localhost:3000/`);
 }
 
-export {
+module.exports = {
     getAppointments,
     getDoctorAppointments,
     getPatientAppointment,
     getDoctorDetails,
     getPatientDetails,
     getAppointment,
-    getMessages
+    getDoctorDetailsById
 }
 

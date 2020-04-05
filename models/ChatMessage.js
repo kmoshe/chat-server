@@ -1,5 +1,6 @@
 class ChatMessage {
     constructor(text, author, timestamp, destination = '') {
+        this.roomId = '';
         this.id = 999;
         this.text = text;
         this.author = author;
@@ -8,4 +9,4 @@ class ChatMessage {
     }
 }
 
-export default ChatMessage;
+module.exports = ChatMessage;

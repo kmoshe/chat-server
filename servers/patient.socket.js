@@ -5,8 +5,11 @@ const Room = require("../models/Room");
 module.exports = (socket, namespaces, clientType, appointmentId, doctor, patientId) => {
 
     console.debug(`doctor.id ${doctor.id}`)
-    const namespace = new Namespace(doctor.id, doctor, `${doctor.firstName} ${doctor.lastName}`, '', '');
-    namespaces.setNamespace(doctor.id, namespace);
+    let namespace = null;
+    if (namespaces[doctor.id] === undefined) {
+        namespace = new Namespace(doctor.id, doctor, `${doctor.firstName} ${doctor.lastName}`, '', '');
+        namespaces.setNamespace(doctor.id, namespace);
+    }
 
     socket.on('disconnect', function () {
         console.log('Disconnected');
@@ -15,7 +18,6 @@ module.exports = (socket, namespaces, clientType, appointmentId, doctor, patient
     socket.on('patient_connect', function (data) {
 
         namespace.addRoom(new Room(data.appointmentId, `${doctor.firstName} ${doctor.lastName}`, doctor.id, doctor, true));
-        namespace.addRoom(new Room(data.appointmentId, `${doctor.firstName} ${doctor.lastName}`, doctor.id, doctor, true));
         socket.join(data.appointmentId);
         socket.in(data.appointmentId).emit('patient_connected', 'מבוטח מחובר');
     });
@@ -23,6 +25,7 @@ module.exports = (socket, namespaces, clientType, appointmentId, doctor, patient
     socket.on('patient_disconnect', function (data) {
 
         socket.leave(data.appointmentId)
+        const room = namespace.getRoom(data.appointmentId);
         socket.emit('patient_disconnected', 'מבוטח התנתק');
     });
 

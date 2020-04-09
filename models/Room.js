@@ -1,8 +1,8 @@
 class Room {
 
-    constructor(roomId, roomTitle, namespace, doctor = null, patient = null, privateRoom = false) {
-        this.roomId = roomId;
-        this.roomTitle = roomTitle;
+    constructor(id, title, namespace, doctor = null, patient = null, privateRoom = false) {
+        this.id = id;
+        this.title = title;
         this.namespace = namespace;
         this.privateRoom = privateRoom;
         this.history = [];
@@ -16,6 +16,10 @@ class Room {
 
     clearHistory() {
         this.history.clear();
+    }
+
+    isPrivateRoom() {
+        return this.privateRoom;
     }
 }
 

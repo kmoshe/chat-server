@@ -15,7 +15,7 @@ const getAppointments = async (id, facility, role) => {
 const getDoctorAppointments = async (id, facilityId, role) => {
     let data = {};
     try {
-        const response = await axios.get(`http://localhost:4000/appointments?id=${id}&facilityId=${facilityId}&role=${role}`);
+        const response = await axios.get(`http://localhost:4000/appointments?doctorId=${id}&facilityId=${facilityId}&role=${role}`);
         data = response.data;
     }
     catch(error) {

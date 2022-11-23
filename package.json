@@ -16,7 +16,7 @@
     "json-server": "^0.16.1",
     "monitor.io": "^0.1.0",
     "npm-run-all": "^4.1.5",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.5.0",
     "socket.io-redis": "^3.1.0"
   },
   "scripts": {
